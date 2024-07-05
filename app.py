@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load the model from the file
-model = tf.keras.models.load_model('Model.h5')
+model = tf.keras.models.load_model('model.h5')
 
 @app.route('/')
 def index():
