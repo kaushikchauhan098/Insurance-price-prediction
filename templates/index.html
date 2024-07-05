@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Insurance Price Predictor</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="container">
+        <!-- edit according to you -->
+        <h1>Price of Insurance</h1>
+        <form method="post" action="/predict" id="candidateForm">
+          <div class="formContainer">
+            <div class="left">
+              <label for="name">Candidate's Name :</label>
+
+              <label for="age">Candidate's Age :</label>
+
+              <label for="gender">Candidate's Gender :</label>
+
+              <label for="bmi">Candidate's BMI :</label>
+
+              <label for="children">Candidate's Children :</label>
+
+              <label for="isSmoker">Candidate Smoke :</label>
+            </div>
+            <div class="right">
+              <input type="text" name="cName" id="name" required />
+
+              <input type="number" name="cAge" id="age" required />
+
+              <div class="flex justify-center items-center gap" id="gender-section">
+                <input type="radio" name="cGender" id="Male" value="Male" required />
+                <label for="Male">: Male</label>
+                <input type="radio" name="cGender" id="Female" value="Female" required />
+                <label for="Female">: Female</label>
+              </div>
+
+              <input type="number" name="cBmi" id="bmi" required />
+
+              <input type="number" name="cChildren" id="children" required />
+
+              <div class="flex justify-center items-center gap" id="IsSmoker-section">
+                <input type="radio" name="cIsSmoker" id="Yes" value="Yes" required />
+                <label for="Yes">: Yes</label>
+                <input type="radio" name="cIsSmoker" id="No" value="No" required />
+                <label for="No">: No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-parent">
+            <button type="submit" onclick="calculateResult(event)">Calculate</button>
+          </div>
+        </form>
+
+        <div class="result">
+          <label for="result"></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- javaScript -->
+    <script>
+      const calculateResult = async (event) => {
+        // Prevent the form from submitting the traditional way
+        event.preventDefault();
+    
+        // Get the values from the inputs
+        const name = document.getElementById("name").value;
+        const age = document.getElementById("age").value;
+        const gender = document.querySelector('input[name="cGender"]:checked').value;
+        const bmi = document.getElementById("bmi").value;
+        const children = document.getElementById("children").value;
+        const isSmoker = document.querySelector('input[name="cIsSmoker"]:checked').value;
+    
+        // Prepare data to send
+        const data = {
+          cName: name,
+          cAge: age,
+          cGender: gender,
+          cBmi: bmi,
+          cChildren: children,
+          cIsSmoker: isSmoker,
+        };
+    
+        // Send the form data to the server
+        const response = await fetch('/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+    
+        // Get the result from the server
+        const result = await response.json();
+    
+        // Display the result
+        document.querySelector(".result").innerHTML = result.result;
+    
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+          document.querySelector(".result").innerHTML = "";
+        }, 10000);
+      };
+    
+      for (const element of document.querySelectorAll("input")) {
+        element.addEventListener("focus", (e) => {
+          findLabelForControl(e.target).classList.add('bold');
+        });
+      }
+    
+      for (const element of document.querySelectorAll("input")) {
+        element.addEventListener("blur", (e) => {
+          findLabelForControl(e.target).classList.remove('bold');
+        });
+      }
+    
+      document.querySelector("#gender-section").addEventListener("click", () => {
+        findLabelForControlGender("gender").classList.add('bold');
+      });
+    
+      document.querySelector("#IsSmoker-section").addEventListener("click", () => {
+        findLabelForControlGender("isSmoker").classList.add('bold');
+      });
+    
+      // Find label according to the current active input field
+      function findLabelForControl(el) {
+        var idVal = el.id;
+        labels = document.getElementsByTagName("label");
+        for (var i = 0; i < labels.length; i++) {
+          if (labels[i].htmlFor == idVal) return labels[i];
+        }
+      }
+    
+      // Only for active bold feature of gender section
+      function findLabelForControlGender(el) {
+        var idVal = el;
+        labels = document.getElementsByTagName("label");
+        for (var i = 0; i < labels.length; i++) {
+          if (labels[i].htmlFor == idVal) return labels[i];
+        }
+      }
+    </script>
+    
+  </body>
+</html>

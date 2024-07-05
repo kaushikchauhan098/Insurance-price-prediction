@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(0deg, black, #c4efc5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bold{
+    font-weight: bold;
+}
+
+.container {
+    width: 550px;
+    height: 450px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 0px black;
+    padding: 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    position: relative;
+}
+
+h1 {
+    width: 100%;
+    height: fit-content;
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.result {
+    /* background-color: red; */
+    position: absolute;
+    bottom: 20px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.formContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.left,
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.left>label {
+    padding: 4px;
+}
+
+input {
+    padding: 4px
+}
+
+button {
+    width: 100%;
+    font-size: medium;
+    padding: 5px 0px;
+}
+
+.btn-parent {
+    width: 100%;
+    text-align: center;
+}
+
+
+/* utitlity class */
+
+.flex{
+    display: flex;
+}
+
+.justify-center{
+    justify-content: center;
+}
+.item-center{
+    align-items: center;
+}
+.gap{
+    gap: 5px;
+}
